@@ -5,13 +5,13 @@ provider "google" {
 }
 
 //Configuring Kubernetes Provider
-provider "kubernetes" {
-  host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
-  token = data.google_client_config.provider.access_token
-  cluster_ca_certificate = base64decode(
-    data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate,
-  )
-}
+//provider "kubernetes" {
+  //host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+  //token = data.google_client_config.provider.access_token
+ // cluster_ca_certificate = base64decode(
+  //  data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate,
+  //)
+//}
 
 
 //Creating VPC Network
@@ -257,7 +257,7 @@ resource "kubernetes_service" "wpService" {
 
 // Configuring IAP 
 resource "google_iap_web_iam_member" "member" {
-  project = google_project_service.project_service.project
+  project = var.project_id
   role = "roles/iap.httpsResourceAccessor"
   member = "user:atanas.v@europe-cloud.com"
 }
