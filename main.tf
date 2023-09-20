@@ -253,7 +253,7 @@ data "google_iam_policy" "admin" {
   binding {
     role = "roles/iap.httpsResourceAccessor"
     members = [
-      "user:wordpress@temp-atanas.iam.gserviceaccount.com",
+      "user:atanas.v@europe-cloud.com",
     ]
   }
 }
