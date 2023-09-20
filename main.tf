@@ -262,11 +262,6 @@ resource "google_iap_web_iam_member" "member" {
   member = "user:atanas.v@europe-cloud.com"
 }
 
-resource "google_iap_web_iam_policy" "policy" {
-  project = var.project_id
-  policy_data = data.google_iam_policy.admin.policy_data
-}
-
 //Outputs
 output "wp_service_url" {
   value = kubernetes_service.wpService.status[0].load_balancer[0].ingress[0].ip
