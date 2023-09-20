@@ -5,7 +5,14 @@ provider "google" {
 }
 
 //Configuring Kubernetes Provider
-provider "kubernetes" {}
+provider "kubernetes" {
+  host  = "https://${data.google_container_cluster.my_cluster.endpoint}"
+  token = data.google_client_config.provider.access_token
+  cluster_ca_certificate = base64decode(
+    data.google_container_cluster.my_cluster.master_auth[0].cluster_ca_certificate,
+  )
+}
+
 
 //Creating VPC Network
 resource "google_compute_network" "vpc_network1" {
@@ -249,13 +256,10 @@ resource "kubernetes_service" "wpService" {
 }
 
 // Configuring IAP 
-data "google_iam_policy" "admin" {
-  binding {
-    role = "roles/iap.httpsResourceAccessor"
-    members = [
-      "serviceAccount:wordpress@temp-atanas.iam.gserviceaccount.com",
-    ]
-  }
+resource "google_iap_web_iam_member" "member" {
+  project = google_project_service.project_service.project
+  role = "roles/iap.httpsResourceAccessor"
+  member = "user:atanas.v@europe-cloud.com"
 }
 
 resource "google_iap_web_iam_policy" "policy" {
