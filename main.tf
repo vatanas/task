@@ -4,6 +4,10 @@ provider "google" {
  project     = var.project_id
 }
 
+// Configure Google client config provider
+data "google_client_config" "provider" {}
+
+
 //Configuring Kubernetes Provider
 provider "kubernetes" {
   host  = "https://${google_container_cluster.gke_cluster1.endpoint}"
